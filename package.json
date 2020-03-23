@@ -1,0 +1,22 @@
+{
+  "name": "Scient",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/brunodmsi/Scient.git",
+  "author": "Bruno De Masi <brunodemasi1@gmail.com>",
+  "license": "MIT",
+  "private": "true",
+  "workspaces": [
+    "server"
+  ],
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  }
+}

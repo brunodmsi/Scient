@@ -9,6 +9,7 @@
     "start": "node dist/server.js"
   },
   "devDependencies": {
+    "cz-conventional-changelog": "^3.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.1",
@@ -28,5 +29,10 @@
     "sequelize": "^5.21.5",
     "youch": "^2.0.10",
     "yup": "^0.28.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
