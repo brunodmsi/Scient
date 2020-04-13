@@ -1,14 +1,20 @@
-/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-
+import { Router } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import Routes from './routes.js';
 
-export default function App() {
+import Routes from './routes';
+import GlobalStyle from '~/styles/global';
+
+import history from './services/history';
+
+function App() {
   return (
-    <>
+    <Router history={history}>
+      <GlobalStyle />
+      <ToastContainer autoClose={3000} />
       <Routes />
-      <ToastContainer autoClose={3000} className="toast-container" />
-    </>
+    </Router>
   );
 }
+
+export default App;
