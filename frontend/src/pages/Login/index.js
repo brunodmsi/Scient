@@ -1,15 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
-import { toast } from 'react-toastify';
-
-import api from '../../services/api';
-import history from '~/services/history';
-
-// CHANGE
-import { login } from '../../services/auth';
+import { Context } from '~/context/AuthContext';
 
 const schema = Yup.object().shape({
   email: Yup.string().email('Insira um e-mail válido').required('O e-mail é obrigatório'),
@@ -17,19 +11,10 @@ const schema = Yup.object().shape({
 });
 
 export default function Login() {
-  async function handleSubmit (data) {
-    const { email, password } = data;
+  const { handleLogin } = useContext(Context);
 
-    try {
-      const response = await api.post('/session', { email, password });
-
-      login(response.data.token);
-      history.push('/home');
-    } catch ({ response }) {
-      toast.error(response.data.message, {
-        position: toast.POSITION.TOP_LEFT
-      });
-    }
+  async function handleSubmit({ email, password }) {
+    await handleLogin({ email, password });
   };
 
   return (

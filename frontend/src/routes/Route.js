@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 
 import { Route, Redirect } from 'react-router-dom';
-import { isAuthenticated } from '~/services/auth';
+import { Context } from '~/context/AuthContext';
 
 import DefaultLayout from '~/pages/_layouts/default';
 import AuthLayout from '~/pages/_layouts/auth';
@@ -12,17 +12,17 @@ export default function RouteWrapper({
   isPrivate = false,
   ...rest
 }) {
-  const { signed } = isAuthenticated();
+  const { authenticated } = useContext(Context);
 
-  if (!signed && isPrivate) {
+  if (!authenticated && isPrivate) {
     return <Redirect to="/login" />
   }
 
-  if (signed && !isPrivate) {
+  if (authenticated && !isPrivate) {
     return <Redirect to="/" />
   }
 
-  const Layout = signed ? DefaultLayout : AuthLayout;
+  const Layout = authenticated ? DefaultLayout : AuthLayout;
 
   return (
     <Route

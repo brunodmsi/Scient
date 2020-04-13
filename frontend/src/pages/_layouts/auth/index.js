@@ -1,5 +1,4 @@
 import React from 'react';
-import Split from 'react-split-pane';
 
 import { Splitter, FormSection, FeatureSection } from './styles';
 
