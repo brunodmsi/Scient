@@ -21,7 +21,7 @@ class UserController {
 
     const userAddress = await UserAddress.create({
       user_id: user.id,
-      ...req.body
+      ...req.body,
     });
 
     return res.json({ user, userAddress });

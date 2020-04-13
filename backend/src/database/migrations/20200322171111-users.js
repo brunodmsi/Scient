@@ -11,7 +11,7 @@ module.exports = {
       cpf: {
         type: Sequelize.STRING,
         allowNull: true,
-        unique: true
+        unique: true,
       },
 
       rg: {
@@ -48,7 +48,7 @@ module.exports = {
     });
   },
 
-  down: queryInterface => {
+  down: (queryInterface) => {
     return queryInterface.dropTable('users');
   },
 };
