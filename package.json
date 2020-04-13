@@ -6,7 +6,10 @@
   "author": "Bruno De Masi <brunodemasi1@gmail.com>",
   "license": "MIT",
   "private": true,
-  "workspaces": ["backend", "frontend"],
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
   "devDependencies": {
     "cz-conventional-changelog": "3.1.0",
     "husky": "^4.2.5"
@@ -15,5 +18,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "@commitlint/config-conventional": "^8.3.4"
   }
 }
