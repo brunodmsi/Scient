@@ -8,9 +8,11 @@ export const Splitter = styled(Split)`
 
 export const FormSection = styled.div`
   display: inline-block;
-  /* justify-content: space-between; */
   flex-direction: column;
   width: 100%;
+  height: 100%;
+
+  overflow-y: visible;
 
   text-align: left;
   max-width: 450px;
@@ -72,7 +74,7 @@ export const FormSection = styled.div`
 
       &::placeholder {
         color: #000;
-        opacity: 0.7;
+        opacity: 0.5;
       }
     }
 
@@ -108,6 +110,7 @@ export const FormSection = styled.div`
 
     strong {
       font-size: 16px;
+      color: #1497ee;
     }
   }
 `;
@@ -116,6 +119,8 @@ export const FeatureSection = styled.div`
   display: flex;
   height: 100%;
   width: 100%;
+
+  box-shadow: -2px 0px 9px 2px rgba(0, 0, 0, 0.1);
 
   background: rgb(238,246,254);
   background: linear-gradient(180deg, rgba(238,246,254,1) 0%, rgba(212,237,250,1) 100%);
@@ -129,11 +134,11 @@ export const FeatureSection = styled.div`
     left: 50%;
     margin: 0 auto;
     margin-bottom: 70px;
-    background-color: #1497ee;
+    background-color: rgba(20, 151, 238, 0.9);
     padding: 10px 16px;
     border-radius: 4px;
 
-    box-shadow: 0px 0px 9px 2px rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 0px 9px 2px rgba(0, 0, 0, 0.1);
 
     flex-direction: row;
 
