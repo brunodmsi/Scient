@@ -1,0 +1,19 @@
+{
+  "name": "Scient",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/brunodmsi/Scient.git",
+  "author": "Bruno De Masi <brunodemasi1@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": ["backend", "frontend"],
+  "devDependencies": {
+    "cz-conventional-changelog": "3.1.0",
+    "husky": "^4.2.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
