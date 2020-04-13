@@ -11,8 +11,8 @@ import authMiddleware from './app/middlewares/auth';
 const routes = Router();
 
 routes.post('/users', validateUserStore, UserController.store);
-routes.post('/session', validateSessionStore, SessionController.store);
+routes.post('/sessions', validateSessionStore, SessionController.store);
 
-routes.get('/', authMiddleware, (req, res) => res.json({ message: 'oi' }))
+routes.get('/', authMiddleware, (req, res) => res.json({ message: 'oi' }));
 
 export default routes;
