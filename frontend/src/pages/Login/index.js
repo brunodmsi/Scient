@@ -1,75 +1,56 @@
-/* eslint-disable no-empty */
-/* eslint-disable react/state-in-constructor */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable no-useless-escape */
-/* eslint-disable no-shadow */
-/* eslint-disable camelcase */
-/* eslint-disable react/button-has-type */
-/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Form, Input } from '@rocketseat/unform';
+import * as Yup from 'yup';
+
 import { toast } from 'react-toastify';
-import { Link, withRouter } from 'react-router-dom';
-import logo from '../../assets/Scient_Logo.png';
-import { Container } from '../../styles/styles';
-import { Form } from './styles';
+
 import api from '../../services/api';
+import history from '~/services/history';
+
+// CHANGE
 import { login } from '../../services/auth';
 
-class Login extends React.Component {
-  state = {
-    email: '',
-    password: '',
-  };
+const schema = Yup.object().shape({
+  email: Yup.string().email('Insira um e-mail válido').required('O e-mail é obrigatório'),
+  password: Yup.string().required('A senha é obrigatória'),
+});
 
-  handleSubmit = async (e) => {
-    e.preventDefault();
-    const { email, password } = this.state;
+export default function Login() {
+  async function handleSubmit (data) {
+    const { email, password } = data;
 
-    if (email.length === 0 || password.length === 0) {
-      toast.error('Preencha os campos solicitados!');
-    } else {
-      try {
-        const response = await api.post('/session', { email, password });
-        toast.success('Login efetuado!');
-        login(response.data.token);
-        this.props.history.push('/home');
-      } catch (error) {
-        toast.error('E-mail ou Senha inválidos!');
-      }
+    try {
+      const response = await api.post('/session', { email, password });
+
+      login(response.data.token);
+      history.push('/home');
+    } catch ({ response }) {
+      toast.error(response.data.message, {
+        position: toast.POSITION.TOP_LEFT
+      });
     }
   };
 
-  render() {
-    return (
-      <Container>
-        <img src={logo} alt="Logo" />
-        <br />
-        <h1>Entre agora</h1>
-        <spam>Coloque suas informações de acesso a conta Scient</spam>
-        <Form onSubmit={this.handleSubmit}>
-          <h4>E-mail</h4>
-          <input
-            placeholder="Digite seu e-mail"
-            type="email"
-            onChange={(e) => this.setState({ email: e.target.value })}
-          />
-          <h4>Senha</h4>
-          <input
-            placeholder="Digite sua senha"
-            type="password"
-            onChange={(e) => this.setState({ password: e.target.value })}
-          />
-          <button type="submit">Acessar</button>
-        </Form>
-        <spam id="signups">Não tem uma conta?</spam>
-        <br />
-        <button id="signup">
-          <Link to="cadastro">Cadastre-se agora.</Link>
-        </button>
-      </Container>
-    );
-  }
-}
+  return (
+    <>
+      <h1>Entre agora.</h1>
+      <p>Coloque suas informações de acesso à sua <br /> conta Scient</p>
 
-export default withRouter(Login);
+      <Form schema={schema} onSubmit={handleSubmit}>
+        <label>E-mail</label>
+        <Input placeholder="Digite seu e-mail" type="email" name="email" />
+
+        <label>Senha</label>
+        <Input placeholder="Digite sua senha" type="password" name="password" />
+
+        <button type="submit">Entrar</button>
+      </Form>
+
+      <Link to="/register">
+        Ainda não tem uma conta?
+        <strong>Cadastre-se agora</strong>
+      </Link>
+    </>
+  );
+}
