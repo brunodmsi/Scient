@@ -56,7 +56,7 @@ function SecondStep({ location }) {
           </section>
 
           <section>
-            <label htmlFor="compliment">RG</label>
+            <label htmlFor="compliment">Complemento</label>
             <Input name="compliment" placeholder="ex: Numero 123" />
           </section>
         </Row2Col>
