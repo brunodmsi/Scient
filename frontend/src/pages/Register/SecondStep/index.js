@@ -33,10 +33,12 @@ function SecondStep({ location }) {
       })
 
       history.push('/login');
-    } catch ({ response }) {
-      toast.error(response.data.message, {
+    } catch (error) {
+      toast.error(error.response.data.message || 'Erro interno do servidor', {
         position: toast.POSITION.TOP_LEFT
       });
+
+      console.error(error);
     }
   }
 
