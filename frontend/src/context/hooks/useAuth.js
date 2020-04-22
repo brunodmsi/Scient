@@ -21,10 +21,11 @@ export default function useAuth() {
 
   async function handleLogin(data) {
     try {
-      const { data: { token } } = await api.post('/sessions', data);
+      const { data: response } = await api.post('/sessions', data);
 
-      localStorage.setItem('@Scient:AUTH_TOKEN', JSON.stringify(token));
-      api.defaults.headers.Authorization = `Bearer ${token}`;
+      localStorage.setItem('@Scient:USER_INFO', JSON.stringify(response.user));
+      localStorage.setItem('@Scient:AUTH_TOKEN', JSON.stringify(response.token));
+      api.defaults.headers.Authorization = `Bearer ${response.token}`;
       setAuthenticated(true);
       history.push('/');
     } catch ({ response }) {
@@ -34,6 +35,11 @@ export default function useAuth() {
     }
   }
 
+  function loggedInUserInfo() {
+    const user = localStorage.getItem('@Scient:USER_INFO')
+    return JSON.parse(user);
+  }
+
   function handleLogout() {
     setAuthenticated(false);
     localStorage.removeItem('@Scient:AUTH_TOKEN');
@@ -41,5 +47,5 @@ export default function useAuth() {
     history.push('/login');
   }
 
-  return { authenticated, loading, handleLogin, handleLogout };
+  return { authenticated, loading, handleLogin, handleLogout, loggedInUserInfo };
 }
