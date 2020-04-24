@@ -28,8 +28,8 @@ export default function useAuth() {
       api.defaults.headers.Authorization = `Bearer ${response.token}`;
       setAuthenticated(true);
       history.push('/');
-    } catch ({ response }) {
-      toast.error(response.data.message, {
+    } catch (error) {
+      toast.error(error.response.data.message || 'Erro interno', {
         position: toast.POSITION.TOP_LEFT
       });
     }
