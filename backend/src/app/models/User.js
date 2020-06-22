@@ -12,6 +12,7 @@ class User extends Model {
         cpf: Sequelize.STRING,
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
+        survey_done: Sequelize.BOOLEAN,
       },
       { sequelize }
     );

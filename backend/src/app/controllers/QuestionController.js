@@ -10,9 +10,9 @@ class QuestionController {
   async store(req, res) {
     const { title, options } = req.body;
 
-    if (options.length > 5 || options.length < 3) {
+    if (options.length > 5 || options.length < 2) {
       return res.status(401).json({
-        message: 'As opcoes precisam ter entre 3-5 escolhas',
+        message: 'As opcoes precisam ter entre 2-5 escolhas',
       });
     }
 

@@ -10,33 +10,52 @@ import SideBar from './Sidebar';
 export default function Questionary(){
   const [questions, setQuestions] = useState({});
   const [actualQuestion, setActualQuestion] = useState(null);
+  const [userAnswers, setUserAnswers] = useState([]);
   const [surveyDone, setSurveyDone] = useState(false);
 
   useEffect(() => {
-    api.get('/questions').then(({ data }) => {
-      setQuestions({
-        data,
-        totalQuestions: data.length,
-        actualQuestionIndex: 0
-      });
+    api.get('/survey').then(({ data }) => {
+      if (data.length === 0) {
+        setSurveyDone(true);
+      } else {
+        api.get('/questions').then(({ data }) => {
+          setQuestions({
+            data,
+            totalQuestions: data.length,
+            actualQuestionIndex: 0
+          });
 
-      setActualQuestion(data[0]);
+          setActualQuestion(data[0]);
+        })
+      }
     })
   }, []);
 
-  function nextQuestion() {
+  async function nextQuestion(chosenIndex) {
     const lastQuestion = questions.actualQuestionIndex;
-    const newQuestion = questions.data[lastQuestion + 1];
+    const nextQuestion = questions.data[lastQuestion + 1];
 
     setQuestions({
       ...questions,
       actualQuestionIndex: lastQuestion + 1
     })
 
-    if (!newQuestion) {
+    if (!nextQuestion) {
       setSurveyDone(true);
+
+      await api.post('/survey', {
+        userAnswers
+      });
     } else {
-      setActualQuestion(newQuestion);
+      setUserAnswers([
+        ...userAnswers,
+        {
+          questionId: actualQuestion.id,
+          chosenIndex,
+        }
+      ])
+
+      setActualQuestion(nextQuestion);
     }
   }
 
@@ -59,8 +78,8 @@ export default function Questionary(){
           <h1>{actualQuestion && actualQuestion.title}</h1>
 
           <section>
-            {actualQuestion && actualQuestion.options.map(option => (
-              <button key={option.id} onClick={nextQuestion}>
+            {actualQuestion && actualQuestion.options.map((option, index) => (
+              <button key={option.id} onClick={() => nextQuestion(index)}>
                 <span>
                   <Icon icon={option.icon} color={option.color} size={45} />
                 </span>
