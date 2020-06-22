@@ -28,6 +28,7 @@ class User extends Model {
 
   static associate(models) {
     this.hasOne(models.UserAddress, { foreignKey: 'user_id', as: 'address' });
+    this.hasMany(models.UserSurvey, { foreignKey: 'user_id', as: 'survey' });
   }
 
   checkPassword(password) {

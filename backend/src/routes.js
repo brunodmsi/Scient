@@ -19,8 +19,8 @@ routes.post('/sessions', validateSessionStore, SessionController.store);
 routes.get('/questions', QuestionController.index);
 routes.post('/questions', validateQuestionStore, QuestionController.store);
 
-routes.get('/survey', UserSurveyController.index);
-routes.post('/survey', UserSurveyController.store);
+routes.get('/survey/:user_id', authMiddleware, UserSurveyController.index);
+routes.post('/survey', authMiddleware, UserSurveyController.store);
 
 routes.get('/', authMiddleware, (req, res) => res.json({ message: 'oi' }));
 

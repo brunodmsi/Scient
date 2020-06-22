@@ -13,8 +13,11 @@ class UserSurvey extends Model {
   }
 
   static associate(models) {
-    this.hasOne(models.User, { foreignKey: 'user_id', as: 'user' });
-    this.hasOne(models.Question, { foreignKey: 'question_id', as: 'question' });
+    this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
+    this.belongsTo(models.Question, {
+      foreignKey: 'question_id',
+      as: 'question',
+    });
   }
 }
 

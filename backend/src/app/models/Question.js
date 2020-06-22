@@ -13,6 +13,13 @@ class Question extends Model {
 
     return this;
   }
+
+  static associate(models) {
+    this.hasMany(models.UserSurvey, {
+      foreignKey: 'question_id',
+      as: 'question',
+    });
+  }
 }
 
 export default Question;

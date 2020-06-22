@@ -1,5 +1,6 @@
 import UserSurvey from '../models/UserSurvey';
 import User from '../models/User';
+import Question from '../models/Question';
 
 class UserSurveyController {
   async index(req, res) {
@@ -15,6 +16,14 @@ class UserSurveyController {
 
     const userSurvey = await UserSurvey.findAll({
       where: { user_id: user.id },
+      include: [
+        { model: Question, as: 'question' },
+        {
+          model: User,
+          as: 'user',
+          attributes: ['id', 'name', 'email', 'rg', 'cpf'],
+        },
+      ],
     });
 
     return res.json(userSurvey);
@@ -34,7 +43,7 @@ class UserSurveyController {
       });
     }
 
-    if (!answers.isArray()) {
+    if (answers instanceof Array === false) {
       return res.status(401).json({
         message: 'As respostas estão no formato incorreto.',
       });
