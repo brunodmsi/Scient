@@ -8,26 +8,30 @@ import { Wrapper, Content, SurveyFinish } from './styles';
 import SideBar from './Sidebar';
 
 export default function Questionary(){
+  const { loggedInUserInfo } = useContext(Context);
+
   const [questions, setQuestions] = useState({});
   const [actualQuestion, setActualQuestion] = useState(null);
   const [userAnswers, setUserAnswers] = useState([]);
   const [surveyDone, setSurveyDone] = useState(false);
 
   useEffect(() => {
-    api.get('/survey').then(({ data }) => {
-      if (data.length === 0) {
-        setSurveyDone(true);
-      } else {
-        api.get('/questions').then(({ data }) => {
-          setQuestions({
-            data,
-            totalQuestions: data.length,
-            actualQuestionIndex: 0
-          });
+    const { id } = loggedInUserInfo();
 
-          setActualQuestion(data[0]);
-        })
+    api.get(`/survey/${id}`).then(({ data }) => {
+      if (data.length !== 0) {
+        setSurveyDone(true);
       }
+    });
+
+    api.get('/questions').then(({ data }) => {
+      setQuestions({
+        data,
+        totalQuestions: data.length,
+        actualQuestionIndex: data.length
+      });
+
+      setActualQuestion(data[0]);
     })
   }, []);
 
@@ -40,22 +44,34 @@ export default function Questionary(){
       actualQuestionIndex: lastQuestion + 1
     })
 
+    setUserAnswers([
+      ...userAnswers,
+      {
+        questionId: actualQuestion.id,
+        chosenIndex,
+      }
+    ])
+
+    setActualQuestion(nextQuestion);
+
     if (!nextQuestion) {
       setSurveyDone(true);
 
-      await api.post('/survey', {
-        userAnswers
-      });
-    } else {
-      setUserAnswers([
+      const allAnswers = [
         ...userAnswers,
         {
           questionId: actualQuestion.id,
           chosenIndex,
         }
-      ])
+      ]
 
-      setActualQuestion(nextQuestion);
+      try {
+        await api.post('/survey', {
+          answers: allAnswers
+        });
+      } catch (err) {
+        console.log(err.response);
+      }
     }
   }
 
@@ -79,7 +95,7 @@ export default function Questionary(){
 
           <section>
             {actualQuestion && actualQuestion.options.map((option, index) => (
-              <button key={option.id} onClick={() => nextQuestion(index)}>
+              <button key={index} onClick={() => nextQuestion(index)}>
                 <span>
                   <Icon icon={option.icon} color={option.color} size={45} />
                 </span>
