@@ -1,12 +1,10 @@
 import Sequelize, { Model } from 'sequelize';
 
-class Question extends Model {
+class UserSurvey extends Model {
   static init(sequelize) {
     super.init(
       {
-        title: Sequelize.STRING,
-        options: Sequelize.ARRAY(Sequelize.JSON),
-        enabled: Sequelize.BOOLEAN,
+        answer_index: Sequelize.INTEGER,
       },
       { sequelize }
     );
@@ -15,11 +13,12 @@ class Question extends Model {
   }
 
   static associate(models) {
-    this.hasMany(models.UserSurvey, {
+    this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
+    this.belongsTo(models.Question, {
       foreignKey: 'question_id',
       as: 'question',
     });
   }
 }
 
-export default Question;
+export default UserSurvey;

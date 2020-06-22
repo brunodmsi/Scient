@@ -24,7 +24,7 @@ export default function useAuth() {
       const { data: response } = await api.post('/sessions', data);
 
       localStorage.setItem('@Scient:USER_INFO', JSON.stringify(response.user));
-      localStorage.setItem('@Scient:AUTH_TOKEN', JSON.stringify(response.token));
+      localStorage.setItem('@Scient:AUTH_TOKEN', response.token);
       api.defaults.headers.Authorization = `Bearer ${response.token}`;
       setAuthenticated(true);
       history.push('/');

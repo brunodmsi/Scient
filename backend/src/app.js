@@ -22,7 +22,7 @@ class App {
     this.server.use(express.json());
     this.server.use(
       cors({
-        origin: process.env.REACT_APP_URL,
+        origin: [process.env.REACT_APP_URL, 'http://localhost:*'],
       })
     );
   }

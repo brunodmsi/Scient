@@ -3,6 +3,7 @@ import { Router } from 'express';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import QuestionController from './app/controllers/QuestionController';
+import UserSurveyController from './app/controllers/UserSurveyController';
 
 import validateUserStore from './app/validators/UserStore';
 import validateSessionStore from './app/validators/SessionStore';
@@ -17,6 +18,9 @@ routes.post('/sessions', validateSessionStore, SessionController.store);
 
 routes.get('/questions', QuestionController.index);
 routes.post('/questions', validateQuestionStore, QuestionController.store);
+
+routes.get('/survey/:user_id', authMiddleware, UserSurveyController.index);
+routes.post('/survey', authMiddleware, UserSurveyController.store);
 
 routes.get('/', authMiddleware, (req, res) => res.json({ message: 'oi' }));
 
