@@ -18,6 +18,8 @@ routes.post('/sessions', validateSessionStore, SessionController.store);
 
 routes.get('/questions', QuestionController.index);
 routes.post('/questions', validateQuestionStore, QuestionController.store);
+routes.put('/questions/:id', QuestionController.update);
+routes.delete('/questions/:id', QuestionController.destroy);
 
 routes.get('/survey/:user_id', authMiddleware, UserSurveyController.index);
 routes.post('/survey', authMiddleware, UserSurveyController.store);

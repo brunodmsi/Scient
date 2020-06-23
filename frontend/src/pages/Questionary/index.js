@@ -18,21 +18,20 @@ export default function Questionary(){
   useEffect(() => {
     const { id } = loggedInUserInfo();
 
-    api.get(`/survey/${id}`).then(({ data }) => {
-      if (data.length !== 0) {
+    api.get(`/survey/${id}`).then(({ data: surveyData }) => {
+      if (surveyData.length !== 0)
         setSurveyDone(true);
-      }
+
+        api.get('/questions').then(({ data: questionsData }) => {
+          setQuestions({
+            data: questionsData,
+            totalQuestions: questionsData.length,
+            actualQuestionIndex: surveyData.length !== 0 ? questionsData.actualQuestionIndex : 0
+          });
+
+          setActualQuestion(questionsData[0]);
+        })
     });
-
-    api.get('/questions').then(({ data }) => {
-      setQuestions({
-        data,
-        totalQuestions: data.length,
-        actualQuestionIndex: data.length
-      });
-
-      setActualQuestion(data[0]);
-    })
   }, []);
 
   async function nextQuestion(chosenIndex) {
