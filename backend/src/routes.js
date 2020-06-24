@@ -4,6 +4,7 @@ import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import QuestionController from './app/controllers/QuestionController';
 import UserSurveyController from './app/controllers/UserSurveyController';
+import BankController from './app/controllers/BankController';
 
 import validateUserStore from './app/validators/UserStore';
 import validateSessionStore from './app/validators/SessionStore';
@@ -24,6 +25,7 @@ routes.delete('/questions/:id', QuestionController.destroy);
 routes.get('/survey/:user_id', authMiddleware, UserSurveyController.index);
 routes.post('/survey', authMiddleware, UserSurveyController.store);
 
-routes.get('/', authMiddleware, (req, res) => res.json({ message: 'oi' }));
+routes.get('/banks', BankController.index);
+routes.post('/banks', BankController.store);
 
 export default routes;
