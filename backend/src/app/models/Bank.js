@@ -4,6 +4,7 @@ class Bank extends Model {
   static init(sequelize) {
     super.init(
       {
+        name: Sequelize.STRING,
         unlimited_withdraws: Sequelize.BOOLEAN,
         free_ted: Sequelize.BOOLEAN,
         longway_money: Sequelize.BOOLEAN,

@@ -20,11 +20,7 @@ class App {
 
   middlewares() {
     this.server.use(express.json());
-    this.server.use(
-      cors({
-        origin: [process.env.REACT_APP_URL, 'http://localhost:*'],
-      })
-    );
+    this.server.use(cors());
   }
 
   routes() {
