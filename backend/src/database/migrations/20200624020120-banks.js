@@ -13,6 +13,11 @@ module.exports = {
         allowNull: false,
       },
 
+      logo: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+
       unlimited_withdraws: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
@@ -23,17 +28,12 @@ module.exports = {
         allowNull: false,
       },
 
-      longway_money: {
+      loan: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
 
-      annuity: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-      },
-
-      descounts: {
+      university_account: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },

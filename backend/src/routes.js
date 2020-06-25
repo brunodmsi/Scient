@@ -5,7 +5,7 @@ import SessionController from './app/controllers/SessionController';
 import QuestionController from './app/controllers/QuestionController';
 import UserSurveyController from './app/controllers/UserSurveyController';
 import BankController from './app/controllers/BankController';
-import ResultController from './app/controllers/ResultController';
+import SurveyResultController from './app/controllers/SurveyResultController';
 
 import validateUserStore from './app/validators/UserStore';
 import validateSessionStore from './app/validators/SessionStore';
@@ -17,6 +17,7 @@ const routes = Router();
 
 routes.post('/users', validateUserStore, UserController.store);
 routes.get('/users', UserController.index);
+routes.get('/users/:id', UserController.show);
 routes.post('/sessions', validateSessionStore, SessionController.store);
 
 routes.get('/questions', QuestionController.index);
@@ -24,12 +25,14 @@ routes.post('/questions', validateQuestionStore, QuestionController.store);
 routes.put('/questions/:id', QuestionController.update);
 routes.delete('/questions/:id', QuestionController.destroy);
 
-routes.get('/survey/:user_id', authMiddleware, UserSurveyController.index);
+routes.get('/survey', authMiddleware, UserSurveyController.index);
 routes.post('/survey', authMiddleware, UserSurveyController.store);
+
+routes.get('/survey/result', authMiddleware, SurveyResultController.show);
 
 routes.get('/banks', BankController.index);
 routes.post('/banks', BankController.store);
 
-routes.get('/list/:id', ResultController.generate);
+// routes.get('/list/:id', ResultController.generate);
 
 export default routes;

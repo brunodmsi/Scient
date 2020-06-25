@@ -2,6 +2,17 @@ import User from '../models/User';
 import UserAddress from '../models/UserAddress';
 
 class UserController {
+  async show(req, res) {
+    const { id } = req.params;
+
+    const user = await User.findOne({ where: { id } });
+    if (!user) {
+      return res.status(400).json({ message: 'Usuario nao encontrado.' });
+    }
+
+    return res.json(user);
+  }
+
   async store(req, res) {
     const { email, cpf, rg } = req.body;
 

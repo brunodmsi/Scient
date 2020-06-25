@@ -13,6 +13,7 @@ class User extends Model {
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
         survey_done: Sequelize.BOOLEAN,
+        result_given: Sequelize.BOOLEAN,
       },
       { sequelize }
     );
@@ -29,6 +30,10 @@ class User extends Model {
   static associate(models) {
     this.hasOne(models.UserAddress, { foreignKey: 'user_id', as: 'address' });
     this.hasMany(models.UserSurvey, { foreignKey: 'user_id', as: 'survey' });
+    this.hasOne(models.SurveyResult, {
+      foreignKey: 'user_id',
+      as: 'survey_results',
+    });
   }
 
   checkPassword(password) {

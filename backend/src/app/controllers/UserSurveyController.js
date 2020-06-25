@@ -4,9 +4,7 @@ import Question from '../models/Question';
 
 class UserSurveyController {
   async index(req, res) {
-    const { user_id } = req.params;
-
-    const user = await User.findOne({ where: { id: user_id } });
+    const user = await User.findOne({ where: { id: req.userId } });
 
     if (!user) {
       return res.status(401).json({

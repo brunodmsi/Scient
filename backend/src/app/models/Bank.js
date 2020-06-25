@@ -5,11 +5,11 @@ class Bank extends Model {
     super.init(
       {
         name: Sequelize.STRING,
+        logo: Sequelize.STRING,
         unlimited_withdraws: Sequelize.BOOLEAN,
         free_ted: Sequelize.BOOLEAN,
-        longway_money: Sequelize.BOOLEAN,
-        annuity: Sequelize.BOOLEAN,
-        descounts: Sequelize.BOOLEAN,
+        loan: Sequelize.BOOLEAN,
+        university_account: Sequelize.BOOLEAN,
         deposit: Sequelize.BOOLEAN,
       },
       { sequelize }

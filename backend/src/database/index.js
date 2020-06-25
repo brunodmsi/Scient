@@ -5,10 +5,11 @@ import UserAddress from '../app/models/UserAddress';
 import Question from '../app/models/Question';
 import UserSurvey from '../app/models/UserSurvey';
 import Bank from '../app/models/Bank';
+import SurveyResult from '../app/models/SurveyResult';
 
 import databaseConfig from '../config/database';
 
-const models = [User, UserAddress, Question, UserSurvey, Bank];
+const models = [User, UserAddress, Question, UserSurvey, Bank, SurveyResult];
 
 class Database {
   constructor() {
