@@ -6,6 +6,7 @@ import api from '~/services/api';
 
 import { Wrapper, Content, SurveyFinish } from './styles';
 import SideBar from './Sidebar';
+import Result from './Result';
 
 export default function Questionary(){
   const { loggedInUserInfo } = useContext(Context);
@@ -13,25 +14,30 @@ export default function Questionary(){
   const [questions, setQuestions] = useState({});
   const [actualQuestion, setActualQuestion] = useState(null);
   const [userAnswers, setUserAnswers] = useState([]);
-  const [surveyDone, setSurveyDone] = useState(false);
+  const [userStatus, setUserStatus] = useState('unanswered');
 
   useEffect(() => {
     const { id } = loggedInUserInfo();
 
-    api.get(`/survey/${id}`).then(({ data: surveyData }) => {
-      if (surveyData.length !== 0)
-        setSurveyDone(true);
+    api.get(`/users/${id}`).then(({ data: user }) => {
+      api.get('/questions').then(({ data: questions }) => {
+        setQuestions({
+          questions,
+          totalQuestions: questions.length,
+          actualQuestionIndex: user.survey_done ? questions.length : 0
+        });
 
-        api.get('/questions').then(({ data: questionsData }) => {
-          setQuestions({
-            data: questionsData,
-            totalQuestions: questionsData.length,
-            actualQuestionIndex: surveyData.length !== 0 ? questionsData.actualQuestionIndex : 0
-          });
+        setActualQuestion(questions[0]);
+      });
 
-          setActualQuestion(questionsData[0]);
-        })
-    });
+      if (user.survey_done && !user.result_given) {
+        setUserStatus('survey_done');
+      } else if (user.survey_done && user.result_given) {
+        setUserStatus('result_given');
+      } else {
+        setUserStatus('unanswered')
+      }
+    })
   }, []);
 
   async function nextQuestion(chosenIndex) {
@@ -54,7 +60,7 @@ export default function Questionary(){
     setActualQuestion(nextQuestion);
 
     if (!nextQuestion) {
-      setSurveyDone(true);
+      setUserStatus('survey_done');
 
       const allAnswers = [
         ...userAnswers,
@@ -82,11 +88,13 @@ export default function Questionary(){
     />
 
     <Content>
-      {surveyDone ? (
+      {userStatus === 'survey_done' ? (
         <SurveyFinish>
           <h1>Questionario finalizado!</h1>
           <p>Obrigado pela colaboracao, vamos processar os dados e lhe retornaremos por e-mail quando estivermos pronto.</p>
         </SurveyFinish>
+      ) : userStatus === 'result_given' ? (
+        <Result />
       ) : (
         <>
           <span>QUESTAO {questions.actualQuestionIndex + 1}/{questions.totalQuestions}</span>
