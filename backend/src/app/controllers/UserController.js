@@ -2,6 +2,12 @@ import User from '../models/User';
 import UserAddress from '../models/UserAddress';
 
 class UserController {
+  async index(req, res) {
+    const users = await User.findAll({});
+
+    return res.json(users);
+  }
+
   async show(req, res) {
     const { id } = req.params;
 
@@ -38,10 +44,19 @@ class UserController {
     return res.json({ user, userAddress });
   }
 
-  async index(req, res) {
-    const users = await User.findAll({});
+  async update(req, res) {
+    const { id } = req.params;
+    const { survey_done, result_given } = req.body;
 
-    return res.json(users);
+    const user = await User.findOne({ where: { id } });
+    user.update({
+      survey_done,
+      result_given,
+    });
+
+    user.save();
+
+    return res.json(user);
   }
 }
 

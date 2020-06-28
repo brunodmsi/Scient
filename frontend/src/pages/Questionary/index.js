@@ -21,10 +21,11 @@ export default function Questionary(){
 
     api.get(`/users/${id}`).then(({ data: user }) => {
       api.get('/questions').then(({ data: questions }) => {
+        console.log(questions);
         setQuestions({
-          questions,
+          data: questions,
           totalQuestions: questions.length,
-          actualQuestionIndex: user.survey_done ? questions.length : 0
+          actualQuestionIndex: user.survey_done === true ? questions.length : 0
         });
 
         setActualQuestion(questions[0]);
@@ -41,6 +42,7 @@ export default function Questionary(){
   }, []);
 
   async function nextQuestion(chosenIndex) {
+    console.log(questions);
     const lastQuestion = questions.actualQuestionIndex;
     const nextQuestion = questions.data[lastQuestion + 1];
 

@@ -18,6 +18,7 @@ const routes = Router();
 routes.post('/users', validateUserStore, UserController.store);
 routes.get('/users', UserController.index);
 routes.get('/users/:id', UserController.show);
+routes.put('/users/:id', UserController.update);
 routes.post('/sessions', validateSessionStore, SessionController.store);
 
 routes.get('/questions', QuestionController.index);
